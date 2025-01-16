@@ -96,13 +96,12 @@ def stop_camera():
 def display_report():
     global emotion_counts, start_time, session_end_time, report_window
     if report_window is not None and report_window.winfo_exists():
-        report_window.lift()  # Jeśli okno istnieje, przywróć je na wierzch
+        report_window.lift()
         return
 
     if start_time is None:
         return
 
-    # Użyj końcowego czasu sesji, jeśli kamera jest wyłączona
     end_time = session_end_time if not camera_on else time.time()
     total_time = end_time - start_time
     if total_time == 0:
@@ -139,7 +138,8 @@ def display_report():
     def save_report():
         file_path = fd.asksaveasfilename(defaultextension=".txt",
                                          filetypes=[("Pliki tekstowe", "*.txt")],
-                                         title="Zapisz raport")
+                                         title="Zapisz raport",
+                                         parent=report_window)
         if file_path:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(f"Raport z rozpoznawania emocji:\nCzas trwania sesji: {total_time:.2f} sekund\n\n")
@@ -159,7 +159,7 @@ def display_report():
 def display_chart():
     global emotion_counts, start_time, chart_window
     if chart_window is not None and chart_window.winfo_exists():
-        chart_window.lift()  # Jeśli okno istnieje, przywróć je na wierzch
+        chart_window.lift()
         return
 
     if start_time is None:
@@ -197,7 +197,8 @@ def display_chart():
     def save_chart():
         file_path = fd.asksaveasfilename(defaultextension=".png",
                                          filetypes=[("Obrazy PNG", "*.png")],
-                                         title="Zapisz wykres")
+                                         title="Zapisz wykres",
+                                         parent=chart_window)
         if file_path:
             fig.savefig(file_path)
 
@@ -209,6 +210,7 @@ def display_chart():
 
     close_button = tk.Button(button_frame, text="Zamknij", command=chart_window.destroy, width=15)
     close_button.pack(side=tk.LEFT, padx=5)
+
 
 def display_time_based_report():
     global emotion_time_intervals, start_time, time_report_window
@@ -277,7 +279,8 @@ def display_time_based_report():
     def save_report():
         file_path = fd.asksaveasfilename(defaultextension=".txt",
                                          filetypes=[("Pliki tekstowe", "*.txt")],
-                                         title="Zapisz raport czasowy")
+                                         title="Zapisz raport czasowy",
+                                         parent=time_report_window)
         if file_path:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write("Raport czasowy emocji:\n")
